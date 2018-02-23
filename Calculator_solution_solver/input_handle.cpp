@@ -8,7 +8,7 @@
 *				by the user.
 *
 *	Params:		operator_list:	vector of class type Operations (each math operation is an object)
-*				goal_value:		GLOOP BLOP
+*				goal_value:		
 *
 *	returns void
 */
