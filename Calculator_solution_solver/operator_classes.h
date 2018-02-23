@@ -9,20 +9,20 @@
 
 class Operations {
 public:
-	Operations(double given_value);
-	
-	virtual void execute_function();
-	virtual std::string get_function_type();
-	virtual void print_operation_type();
-	
-	double get_given_value();
-	void set_given_value(double new_value);
-	void set_type(std::string oper_type);
-	
-	
+    Operations(double given_value);
+    
+    virtual void execute_function();
+    virtual std::string get_function_type();
+    virtual void print_operation_type();
+    
+    double get_given_value();
+    void set_given_value(double new_value);
+    void set_type(std::string oper_type);
+    
+    
 private:
-	double _given_value;
-	std::string _oper_type;
+    double _given_value;
+    std::string _oper_type;
 
 };
 
@@ -30,69 +30,69 @@ private:
 class Multiply : public Operations
 {
 public:
-	Multiply(double given_value, double factor);
-	void execute_function();
-	std::string get_function_type();
-	void print_operation_type();
-	
+    Multiply(double given_value, double factor);
+    void execute_function();
+    std::string get_function_type();
+    void print_operation_type();
+    
 private:
-	double _factor;
-	
+    double _factor;
+    
 };
 
 class Divide : public Operations
 {
 public:
-	Divide(double given_value, double divisor);
-	void execute_function();
-	std::string get_function_type();
-	void print_operation_type();
-	
+    Divide(double given_value, double divisor);
+    void execute_function();
+    std::string get_function_type();
+    void print_operation_type();
+    
 private:
-	double _divisor;
-	
+    double _divisor;
+    
 };
 
 class Addition : public Operations
 {
 public:
-	Addition(double given_value, double add_value);
-	void execute_function();
-	std::string get_function_type();
-	void print_operation_type();
-	
+    Addition(double given_value, double add_value);
+    void execute_function();
+    std::string get_function_type();
+    void print_operation_type();
+    
 private:
-	double _add_value;
-	
+    double _add_value;
+    
 };
 
 class Remove_last_val : public Operations
 {
 public:
-	Remove_last_val(double given_value);
-	void execute_function();
-	std::string get_function_type();
-	void print_operation_type();
+    Remove_last_val(double given_value);
+    void execute_function();
+    std::string get_function_type();
+    void print_operation_type();
 
 };
 
 class Add_last_val : public Operations
 {
 public:
-	Add_last_val(double given_value, double add_value);
-	void execute_function();
-	std::string get_function_type();
-	void print_operation_type();
+    Add_last_val(double given_value, double add_value);
+    void execute_function();
+    std::string get_function_type();
+    void print_operation_type();
 
 private:
-	int _add_value;
-	
+    int _add_value;
+    
 };
 
 class Reverse_order : public Operations
 {
 public:
-	Reverse_order(double given_value);
-	void execute_function();
+    Reverse_order(double given_value);
+    void execute_function();
 };
 #endif
