@@ -3,9 +3,12 @@
 #include <iostream>
 
 /*
-*	This function handles all user interaction for operation selection and 
-*	initial values. The vector operator_list will store the operations selected
-*	by the user.
+*	Summary:	This function handles all user interaction for operation selection and 
+*				initial values. The vector operator_list will store the operations selected
+*				by the user.
+*
+*	Params:		operator_list:	vector of class type Operations (each math operation is an object)
+*				goal_value:		
 *
 *	returns void
 */
