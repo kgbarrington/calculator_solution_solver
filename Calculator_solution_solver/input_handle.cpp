@@ -1,6 +1,35 @@
+// input_handle.cpp
+// Written by Kasey Barrington, kgbarrington@gmail.com
+
 #include "stdafx.h"
 #include "input_handle.h"
 #include <iostream>
+
+/*
+*   Summary:    This function checks the user input to ensure that the value is
+*               an integer, allowing for negative integers as well. The function
+*    
+*   Params:     word:   The word to be checked for only valid signed integer characters.
+*
+*   Return:     bool
+*
+*/
+bool isSignedInt(const std::string word)
+{
+    std::size_t found = word.find_first_not_of("-0123456789");
+
+    if (found != std::string::npos)
+    {
+        std::cout << "The character cannot be an integer: " << word[found] << std::endl;
+
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+
+}
 
 /*
 *   Summary:    This function handles all user interaction for operation selection and 
@@ -15,8 +44,8 @@
 *
 *   Return:     Void
 */
-void do_user_menu(std::vector <Operations*> &operator_list, double &goal_value,
-                  double &start_value, int &number_moves)
+void do_user_menu(std::vector <Operations*> &operator_list, int &goal_value,
+                  int &start_value, int &number_moves)
 {
     int selection   = -1;
     
@@ -66,11 +95,11 @@ void do_user_menu(std::vector <Operations*> &operator_list, double &goal_value,
 *
 *   Params:     none
 *
-*   Return:     double indicating goal value.
+*   Return:     int indicating goal value.
 */
-double get_goal_value()
+int get_goal_value()
 {
-    double goal_value;
+    int goal_value;
 
     std::cout << "What is the goal value? : ";
     std::cin >> goal_value;
@@ -84,15 +113,26 @@ double get_goal_value()
 *
 *   Params:     none
 *
-*   Return:     double indicating starting value.
+*   Return:     int indicating starting value.
 */
-double get_start_value()
+int get_start_value()
 {
-    double start_value;
+    std::string input_value;
+    int start_value;
+
 
     std::cout << "What is the starting value? : ";
-    std::cin >> start_value;
+    std::cin >> input_value;
     std::cout << std::endl;
+
+    while (!isSignedInt(input_value)) // Verify correct input
+    {
+        std::cout << "What is the starting value? : ";
+        std::cin >> input_value;
+        std::cout << std::endl;
+    }
+
+    start_value = std::stoi(input_value);
 
     return start_value;
 }
@@ -106,11 +146,21 @@ double get_start_value()
 */
 int get_number_moves()
 {
+    std::string input_value;
     int number_moves;
 
     std::cout << "What are the maximum moves allowed? : ";
-    std::cin >> number_moves;
+    std::cin >> input_value;
     std::cout << std::endl;
+
+    while (!isSignedInt(input_value)) // Verify correct input
+    {
+        std::cout << "What are the maximum moves allowed? : ";
+        std::cin >> input_value;
+        std::cout << std::endl;
+    }
+
+    number_moves = std::stoi(input_value);
 
     return number_moves;
 }
@@ -125,6 +175,7 @@ int get_number_moves()
 */
 int print_operator_selection_menu()
 {
+    std::string input_value;
     int selection;
     bool valid_selection = false;
     
@@ -139,14 +190,23 @@ int print_operator_selection_menu()
         std::cout << "6. Reverse number order" << std::endl;
         std::cout << "0. Stop operator selection" << std::endl;
         std::cout << "Enter Selection: ";
-        std::cin >> selection;
+        std::cin >> input_value;
         std::cout << std::endl;
-
-        if (selection < 0 || selection > 6)
+                
+        if (!isSignedInt(input_value)) // Verify correct input
         {
-            std::cout << "Invalid selection..." << std::endl;
+            std::cout << "Please use an integer value." << std::endl;
         }
-        else { valid_selection = true; }
+        else if (isSignedInt(input_value))
+        {
+            selection = std::stoi(input_value);
+
+            if (selection < 0 || selection > 6) // Verify correct menu selection
+            {
+                std::cout << "Invalid selection..." << std::endl;
+            }
+            else { valid_selection = true; } // All checks are good, proceed.
+        }        
     }
 
     return selection;
@@ -161,27 +221,33 @@ int print_operator_selection_menu()
 *
 *   Return:     void
 */
-void handle_addition_selection(std::vector <Operations*> &operator_list, double start_value)
+void handle_addition_selection(std::vector <Operations*> &operator_list, int start_value)
 {
-    double value_to_add;
+    std::string input_value;
+    int value_to_add;
     bool valid_value = false;
 
     while (!valid_value) // Prevent user from using invalid numbers
     {
-        std::cout << "You have selected addition. Please enter a non-zero number: ";
-        std::cin >> value_to_add;
+        std::cout << "You have selected addition. Please enter a non-zero integer: ";
+        std::cin >> input_value;
         std::cout << std::endl;
 
-        if (value_to_add == 0)
+        if (!isSignedInt(input_value)) // Verify correct input
         {
-            std::cout << "You have entered an incorrect value!" << std::endl;
+            std::cout << "Please use an integer value." << std::endl;
         }
-        else
+        else if (isSignedInt(input_value))
         {
-            valid_value = true;
-        }
-    }
+            value_to_add = std::stoi(input_value);
 
+            if (value_to_add == 0)
+            {
+                std::cout << "You have entered an invalid value!" << std::endl;
+            }
+            else { valid_value = true; } // All checks are good, proceed.
+        }        
+    }
     operator_list.push_back(new Addition(start_value, value_to_add));
     
 }
@@ -194,14 +260,34 @@ void handle_addition_selection(std::vector <Operations*> &operator_list, double 
 *
 *   Return:     void
 */
-void handle_multiplication_selection(std::vector <Operations*> &operator_list, double start_value)
+void handle_multiplication_selection(std::vector <Operations*> &operator_list, int start_value)
 {
-    double factor;
+    std::string input_value;
+    int factor;
+    bool valid_value = false;
+        
+    while (!valid_value) // Prevent user from using invalid numbers
+    {
+        std::cout << "You have selected multiplication. Please enter a non-zero integer factor: ";
+        std::cin >> input_value;
+        std::cout << std::endl;
 
-    std::cout << "You have selected multiplication. Please enter a factor: ";
-    std::cin >> factor;
-    std::cout << std::endl;
-    
+        if (!isSignedInt(input_value)) // Verify correct input
+        {
+            std::cout << "You have entered an invalid value!" << std::endl;
+        }
+        else if (isSignedInt(input_value))
+        {
+            factor = std::stoi(input_value);
+
+            if (factor == 0)
+            {
+                std::cout << "0 is not a valid number." << std::endl;
+            }
+            else { valid_value = true; } // All checks are good, proceed.
+        }
+    }
+
     operator_list.push_back(new Multiply(start_value, factor));
 }
 
@@ -214,25 +300,32 @@ void handle_multiplication_selection(std::vector <Operations*> &operator_list, d
 *
 *   Return:     void
 */
-void handle_division_selection(std::vector <Operations*> &operator_list, double start_value)
+void handle_division_selection(std::vector <Operations*> &operator_list, int start_value)
 {
-    double divisor;
+    std::string input_value;
+    int divisor;
     bool valid_value = false;
     
     while (!valid_value)
     {
         std::cout << "You have selected division. Please enter a non-zero divisor: ";
-        std::cin >> divisor;
+        std::cin >> input_value;
         std::cout << std::endl;
 
-        if (divisor == 0)
+        if (!isSignedInt(input_value)) // Verify correct input
         {
-            std::cout << "You have entered an incorrect value!" << std::endl;
+            std::cout << "You have entered an invalid value!" << std::endl;
         }
-        else
+        else if (isSignedInt(input_value))
         {
-            valid_value = true;
-        }
+            divisor = std::stoi(input_value);
+
+            if (divisor == 0)
+            {
+                std::cout << "0 is not a valid number." << std::endl;
+            }
+            else { valid_value = true; } // All checks are good, proceed.
+        }        
     }
     
     operator_list.push_back(new Divide(start_value, divisor));
@@ -247,25 +340,34 @@ void handle_division_selection(std::vector <Operations*> &operator_list, double 
 *
 *   Return:     void
 */
-void handle_add_value_selection(std::vector <Operations*> &operator_list, double start_value)
+void handle_add_value_selection(std::vector <Operations*> &operator_list, int start_value)
 {
-    double value_to_add;
-    double intpart;
-    double decpart;
+    std::string input_value;
+    int value_to_add;
+    bool valid_value = false;
+    int intpart;
+    int decpart;
 
-    std::cout << "You have selected to add digits to the end of the value. Please enter an integer: ";
-    std::cin >> value_to_add;
-    std::cout << std::endl;
+    while (!valid_value)
+    {
+        std::cout << "You have selected to add digits to the end of the value. Please enter a positive integer: ";
+        std::cin >> input_value;
+        std::cout << std::endl;
 
-    decpart = std::modf(start_value, &intpart);
+        if (!isSignedInt(input_value)) // Verify correct input
+        {
+            std::cout << "You have entered an invalid value!" << std::endl;
+        }
+        else if (isSignedInt(input_value))
+        {
+            value_to_add = std::stoi(input_value);
 
-    if (decpart != 0)
-    { 
-        std::cout << "You have entered a non integer. Removing decimal portion..." << std::endl;
-
-        value_to_add = intpart;
-
-        std::cout << "Value to add is now " << intpart << std::endl;
+            if (value_to_add < 0)
+            {
+                std::cout << "You entered an invalid (negative) number." << std::endl;
+            }
+            else { valid_value = true; } // All checks are good, proceed.
+        }
     }
 
     operator_list.push_back(new Add_last_val(start_value, value_to_add));
@@ -279,7 +381,7 @@ void handle_add_value_selection(std::vector <Operations*> &operator_list, double
 *
 *   Return:     void
 */
-void handle_reverse_order_selection(std::vector <Operations*> &operator_list, double start_value)
+void handle_reverse_order_selection(std::vector <Operations*> &operator_list, int start_value)
 {
     std::cout << "You have selected to reverse number order. Operator has been added." << std::endl;
 
@@ -294,7 +396,7 @@ void handle_reverse_order_selection(std::vector <Operations*> &operator_list, do
 *
 *   Return:     void
 */
-void handle_remove_value_selection(std::vector <Operations*> &operator_list, double start_value)
+void handle_remove_value_selection(std::vector <Operations*> &operator_list, int start_value)
 {
     std::cout << "You have selected to remove the last value. Operator has been added." << std::endl;
 

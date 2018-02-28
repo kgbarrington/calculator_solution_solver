@@ -1,3 +1,6 @@
+// input_handle.h
+// Written by Kasey Barrington, kgbarrington@gmail.com
+
 #pragma once
 #ifndef _input_handle_h
 #define _input_handle_h
@@ -18,8 +21,8 @@
 *
 *   Return:     Void
 */
-void do_user_menu(std::vector <Operations*> &operator_list, double &goal_value, 
-                  double &start_value, int &number_moves);
+void do_user_menu(std::vector <Operations*> &operator_list, int &goal_value, 
+                  int &start_value, int &number_moves);
 
 /*
 *   Summary:    This function gets the goal value from the user.
@@ -28,7 +31,7 @@ void do_user_menu(std::vector <Operations*> &operator_list, double &goal_value,
 *
 *   Return:     double indicating goal value.
 */
-double get_goal_value();
+int get_goal_value();
 
 /*
 *   Summary:    This function gets the starting value from the user.
@@ -37,7 +40,7 @@ double get_goal_value();
 *
 *   Return:     double indicating starting value.
 */
-double get_start_value();
+int get_start_value();
 
 /*
 *   Summary:    This function gets the number of moves from the user.
@@ -67,7 +70,7 @@ int print_operator_selection_menu();
 *
 *   Return:     void
 */
-void handle_addition_selection(std::vector <Operations*> &operator_list, double start_value);
+void handle_addition_selection(std::vector <Operations*> &operator_list, int start_value);
 
 /*  Summary:    This function gets the value for the multiplication factor for the multiplication
 *               operation. A Multiply object is then added to the vector operator_list.
@@ -77,7 +80,7 @@ void handle_addition_selection(std::vector <Operations*> &operator_list, double 
 *
 *   Return:     void
 */
-void handle_multiplication_selection(std::vector <Operations*> &operator_list, double start_value);
+void handle_multiplication_selection(std::vector <Operations*> &operator_list, int start_value);
 
 /*
 *   Summary:    This function gets the value for the divisor for the division operation.
@@ -88,7 +91,7 @@ void handle_multiplication_selection(std::vector <Operations*> &operator_list, d
 *
 *   Return:     void
 */
-void handle_division_selection(std::vector <Operations*> &operator_list, double start_value);
+void handle_division_selection(std::vector <Operations*> &operator_list, int start_value);
 
 /*
 *   Summary:    This function gets the to be added to for the Add Value to End
@@ -99,7 +102,7 @@ void handle_division_selection(std::vector <Operations*> &operator_list, double 
 *
 *   Return:     void
 */
-void handle_add_value_selection(std::vector <Operations*> &operator_list, double start_value);
+void handle_add_value_selection(std::vector <Operations*> &operator_list, int start_value);
 
 /*
 *   Summary:    This function adds a Reverse_order object to the vector operator_list.
@@ -109,7 +112,7 @@ void handle_add_value_selection(std::vector <Operations*> &operator_list, double
 *
 *   Return:     void
 */
-void handle_reverse_order_selection(std::vector <Operations*> &operator_list, double start_value);
+void handle_reverse_order_selection(std::vector <Operations*> &operator_list, int start_value);
 
 /*
 *   Summary:    This function adds a Remove_last_val object to the vector operator_list.
@@ -119,7 +122,7 @@ void handle_reverse_order_selection(std::vector <Operations*> &operator_list, do
 *
 *   Return:     void
 */
-void handle_remove_value_selection(std::vector <Operations*> &operator_list, double start_value);
+void handle_remove_value_selection(std::vector <Operations*> &operator_list, int start_value);
 
 
 #endif
